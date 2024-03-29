@@ -18,5 +18,5 @@ document
   .getElementById("report-link-btn")
   .addEventListener("click", function () {
     window.location.href =
-      "https://iiitaphyd-my.sharepoint.com/:w:/g/personal/renu_sree_students_iiit_ac_in/EW64tEOS1wtMjmrNE7OShaUBG-GJQVtgghh8Wo1Gt4UslA?rtime=I3e44c5P3Eg";
+      "https://iiitaphyd-my.sharepoint.com/:b:/g/personal/venkata_venkamsetty_students_iiit_ac_in/Ee0sNIH22ytDnFABoNyB9eoBW_azDCZ-dOI8l_BB0Hvm0A?e=vEfo8V";
   });
