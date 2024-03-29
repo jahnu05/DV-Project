@@ -19,6 +19,7 @@ d3.csv("data.csv").then(function (data) {
     }
   });
 
+ 
   // Prepare data for bar chart
   var barData = Object.keys(counts).map(function (ageGroup) {
     return {
@@ -33,29 +34,30 @@ d3.csv("data.csv").then(function (data) {
     return a.ageGroup.localeCompare(b.ageGroup);
   });
 
-  // Create bar chart
+  // Create SVG element for the chart
   var svg = d3
     .select("#chart")
     .append("svg")
     .attr("width", 600)
-    .attr("height", 400); // Increased height for legend and labels
-
+    .attr("height", 400);
+  // Define margins and dimensions for the chart
   var margin = { top: 20, right: 30, bottom: 60, left: 60 }; // Increased bottom margin for y-axis label
   var width = +svg.attr("width") - margin.left - margin.right;
   var height = +svg.attr("height") - margin.top - margin.bottom;
-
+  // Define x and y scales for the chart
   var x = d3.scaleBand().range([0, width]).padding(0.1);
   var y = d3.scaleLinear().range([height, 0]);
-
+  // Append a 'g' element for the chart content
   var g = svg
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
+  // Set the domains for the x and y scales
   x.domain(
     barData.map(function (d) {
       return d.ageGroup;
     })
   );
+
   y.domain([
     0,
     d3.max(barData, function (d) {
@@ -63,6 +65,7 @@ d3.csv("data.csv").then(function (data) {
     }),
   ]);
 
+  // y-axis with label
   g.append("g")
     .attr("class", "axis")
     .call(d3.axisLeft(y).ticks(5))
@@ -71,27 +74,30 @@ d3.csv("data.csv").then(function (data) {
     .attr("y", 6)
     .attr("dy", "-6em")
     .attr("text-anchor", "end")
-    .attr("font-size", "12px") // Adjust font size for y-axis label
+    .attr("font-size", "12px") //  font size for y-axis label
     .attr("fill", "black")
     .text("Percentage of People");
-
+  // x-axis with rotated labels
   g.append("g")
     .attr("class", "axis")
     .attr("transform", "translate(0," + height + ")")
     .call(d3.axisBottom(x))
     .selectAll("text")
-    .style("text-anchor", "middle") // Adjust text alignment
+    .style("text-anchor", "middle") //  text alignment
     .attr("dx", "-.8em")
-    .attr("dy", ".5em") // Increased dy for better alignment
-    .attr("transform", "rotate(-10)"); // Rotate labels for better fit
-
+    .attr("dy", ".5em") // dy 
+    .attr("transform", "rotate(-10)"); 
+// Add chart title
   svg
     .append("text")
-    .attr("transform", "translate(" + (width / 2) + " ," + (height + margin.top + 40) + ")")
+    .attr(
+      "transform",
+      "translate(" + width / 2 + " ," + (height + margin.top + 40) + ")"
+    )
     .style("text-anchor", "middle")
     .attr("font-size", "16px")
     .text("Age Group");
-
+      // Add y-axis label
   g.append("text")
     .attr("transform", "rotate(-90)")
     .attr("y", 0 - margin.left)
@@ -107,7 +113,7 @@ d3.csv("data.csv").then(function (data) {
     .attr("class", "tooltip")
     .style("opacity", 0);
 
-  // Add bars for "Yes" with interactivity
+  // Add bars for "Age group's share of all heart disease cases" with interactivity
   g.selectAll(".yes-bar")
     .data(barData)
     .enter()
@@ -119,7 +125,7 @@ d3.csv("data.csv").then(function (data) {
     .attr("y", height) // Starting point for the animation
     .attr("width", x.bandwidth() / 2)
     .attr("height", 0) // Starting point for the animation
-    .style("fill", "green")
+    .style("fill", "#891652")
     .transition()
     .duration(1000)
     .attr("y", function (d) {
@@ -129,7 +135,7 @@ d3.csv("data.csv").then(function (data) {
       return height - y((d.yes / totalYes) * 100);
     });
 
-  // Add bars for "No" with interactivity
+  // Add bars for "Age group's heart disease Percentage" with interactivity
   g.selectAll(".no-bar")
     .data(barData)
     .enter()
@@ -141,7 +147,7 @@ d3.csv("data.csv").then(function (data) {
     .attr("y", height) // Starting point for the animation
     .attr("width", x.bandwidth() / 2)
     .attr("height", 0) // Starting point for the animation
-    .style("fill", "red")
+    .style("fill", "#EABE6C")
     .transition()
     .duration(1000)
     .attr("y", function (d) {
@@ -151,7 +157,7 @@ d3.csv("data.csv").then(function (data) {
       return height - y((d.yes / (d.yes + d.no)) * 100);
     });
 
-  // Add interactivity and tooltip for "Yes" bars
+  // Add interactivity and tooltip for "Age group's share of all heart disease cases" bars
   g.selectAll(".yes-bar")
     .on("mouseover", function (event, d) {
       var mouseX = event.pageX;
@@ -167,10 +173,19 @@ d3.csv("data.csv").then(function (data) {
     })
     .on("mouseout", function (d) {
       tooltip.transition().duration(500).style("opacity", 0);
-      d3.select(this).style("fill", "green"); // Restore original color
+      d3.select(this).style("fill", "#891652"); // Restore original color
     });
+  // Create x-axis label
+  svg
+    .append("text")
+    .attr(
+      "transform",
+      "translate(" + width / 2 + " ," + (height + margin.top + 40) + ")"
+    )
+    .style("text-anchor", "middle")
+    .text("Age Group");
 
-  // Add interactivity and tooltip for "No" bars
+  // Add interactivity and tooltip for "Age group's heart disease Percentage" bars
   g.selectAll(".no-bar")
     .on("mouseover", function (event, d) {
       var mouseX = event.pageX;
@@ -186,7 +201,7 @@ d3.csv("data.csv").then(function (data) {
     })
     .on("mouseout", function (d) {
       tooltip.transition().duration(500).style("opacity", 0);
-      d3.select(this).style("fill", "red"); // Restore original color
+      d3.select(this).style("fill", "#EABE6C"); // Restore original color
     });
 
   // Add legend for colors
@@ -200,13 +215,13 @@ d3.csv("data.csv").then(function (data) {
     .attr("y", 0)
     .attr("width", 10)
     .attr("height", 10)
-    .style("fill", "green");
+    .style("fill", "#891652");
 
   legend
     .append("text")
     .attr("x", 15)
     .attr("y", 10)
-    .text("Age group's share of all heart attack cases");
+    .text("Age group's share of all heart disease cases");
 
   legend
     .append("rect")
@@ -214,7 +229,7 @@ d3.csv("data.csv").then(function (data) {
     .attr("y", 20)
     .attr("width", 10)
     .attr("height", 10)
-    .style("fill", "red");
+    .style("fill", "#EABE6C");
 
   legend
     .append("text")
@@ -223,8 +238,5 @@ d3.csv("data.csv").then(function (data) {
     .text("Age group's heart disease Percentage");
 
   // Animation for y-axis
-  g.selectAll(".axis")
-    .transition()
-    .duration(1000)
-    .attr("opacity", 1);
+  g.selectAll(".axis").transition().duration(1000).attr("opacity", 1);
 });
