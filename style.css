@@ -1,0 +1,38 @@
+body {
+    background-image: url('image.png'); /* Replace 'this.png' with the URL of your image */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh; /* Set the height of the background to fill the viewport */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 47vh; /* Adjust margin as needed */
+    position: absolute;
+    left: 50%;
+    margin-left: 400px;
+    transform: translate(-50%, -50%);
+}
+
+.button {
+    padding: 10px 20px;
+    margin: 30px;
+    font-size: 30px;
+    cursor: pointer;
+    background-color: #ac3737;
+    color: #fff;
+    border: 2px solid #e76161; /* Border color same as button background color */
+    border-radius: 5px;
+    text-decoration: none;
+    display: block;
+    width: 200px; /* Optional: Set a fixed width for better alignment */
+    transition: background-color 0.3s; /* Smooth transition for background color change */
+}
+
+.button:hover {
+    background-color: #d95252; /* Change background color on hover */
+    border-color: #0f0b0b; /* Change border color on hover */
+}
