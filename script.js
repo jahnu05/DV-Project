@@ -5,7 +5,7 @@ document
   });
 
 document.getElementById("code-link-btn").addEventListener("click", function () {
-  window.location.href = "https://example.com/code";
+  window.location.href = "https://github.com/jahnu05/DV-Project";
 });
 
 document
