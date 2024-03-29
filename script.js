@@ -11,7 +11,7 @@ document.getElementById("code-link-btn").addEventListener("click", function () {
 document
   .getElementById("video-link-btn")
   .addEventListener("click", function () {
-    window.location.href = "https://example.com/video";
+    window.location.href = "https://youtu.be/YJbsVQWmybc?si=iedAO-U9obYDpwK8";
   });
 
 document
