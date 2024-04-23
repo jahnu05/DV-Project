@@ -1,0 +1,43 @@
+{
+    "name": "USA",
+    "children": [
+      {
+        "name": "AgeCategory",
+        "children": [
+          { "name": "Age 18 to 24", "percentage": 0.02 },
+          { "name": "Age 25 to 29", "percentage": 0.02 },
+          { "name": "Age 30 to 34", "percentage": 0.04 },
+          { "name": "Age 35 to 39", "percentage": 0.06 },
+          { "name": "Age 40 to 44", "percentage": 0.09 },
+          { "name": "Age 45 to 49", "percentage": 0.17 },
+          { "name": "Age 50 to 54", "percentage": 0.29 },
+          { "name": "Age 55 to 59", "percentage": 0.45 },
+          { "name": "Age 60 to 64", "percentage": 0.64 },
+          { "name": "Age 65 to 69", "percentage": 0.88 },
+          { "name": "Age 70 to 74", "percentage": 0.98 },
+          { "name": "Age 75 to 79", "percentage": 0.84 },
+          { "name": "Age 80 or above", "percentage": 0.0 }
+        ]
+      },
+      {
+        "name": "GeneralHealth",
+        "children": [
+          { "name": "Very good", "percentage": 1.0 },
+          { "name": "Good", "percentage": 1.87 },
+          { "name": "Excellent", "percentage": 0.24 },
+          { "name": "Fair", "percentage": 1.52 },
+          { "name": "Poor", "percentage": 0.82 }
+        ]
+      },
+      {
+        "name": "SmokerStatus",
+        "children": [
+          { "name": "Former smoker", "percentage": 2.28 },
+          { "name": "Never smoked", "percentage": 2.22 },
+          { "name": "Smokes some days", "percentage": 0.73 },
+          { "name": "Smokes daily", "percentage": 0.22 }
+        ]
+      }
+    ]
+  }
+  

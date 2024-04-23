@@ -11,12 +11,12 @@ document.getElementById("code-link-btn").addEventListener("click", function () {
 document
   .getElementById("video-link-btn")
   .addEventListener("click", function () {
-    window.location.href = "https://youtu.be/YJbsVQWmybc?si=iedAO-U9obYDpwK8";
+    window.location.href = "https://youtu.be/CXT6OqIj2dk";
   });
 
 document
   .getElementById("report-link-btn")
   .addEventListener("click", function () {
     window.location.href =
-      "https://iiitaphyd-my.sharepoint.com/:b:/g/personal/venkata_venkamsetty_students_iiit_ac_in/Ee0sNIH22ytDnFABoNyB9eoBW_azDCZ-dOI8l_BB0Hvm0A?e=vEfo8V";
+      "https://docs.google.com/document/d/1WSVxrYuDoMwpTGNf7S1q_h-C_mU_Gs8-GSIIf0sOTMU/edit?usp=sharing";
   });

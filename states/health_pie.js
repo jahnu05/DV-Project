@@ -38,7 +38,7 @@ d3.csv("data.csv").then(function (data) {
 
   var g = svg
     .append("g")
-    .attr("transform", "translate(" + width / 3 + "," + height / 2 + ")"); // Adjust translate for proper alignment
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); // Adjust translate for proper alignment
 
   // Add title
   g.append("text")

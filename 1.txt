@@ -1,0 +1,10 @@
+1) tree map ---> circle untadi(contains state name) ---> age groups ---> with their percentages
+							---> health status ---> with their percentages
+							---> smoker status ---> with their percentages
+2) Heat map ---> Age group and health status (color represents heart disease percentage)
+3) Dot map ---> BMI (X) and Age group (Y)
+			--->for each BMI category places a dot at the age group with highest heart  disease percentage.
+
+x-axis: agegroup
+y-axis: bmi
+for each agegroup keep dot where which bmi has highest no of heart disease

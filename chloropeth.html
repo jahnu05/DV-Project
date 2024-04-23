@@ -1,17 +1,326 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Heart Disease Indicators</title>
-    <link rel="stylesheet" href="chloropeth.css" />
-  </head>
-  <body>
-    <h1>Heart Disease percentage by State in US</h1>
-    <svg width="1069" height="600"></svg>
-    <button id="showAllStatsButton">Show All Stats</button>
+    <style>
+        .button-container {
+            position: absolute;
+            top: 400px; /* Adjust as needed */
+            right: 220px; /* Align buttons to the right */
+            display: flex;
+            flex-direction: column; /* Align buttons vertically */
+        }
 
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="chloropeth.js"></script>
-  </body>
+        .button-container-1 {
+            position: absolute;
+            /* top: 400px; */
+            right: 90px; /* Align buttons to the right */
+            display: flex;
+            flex-direction: row; /* Align buttons horizontally */
+            gap: 10px; /* Add space between buttons */
+
+        }
+
+        .button {
+            background-color: rgb(221, 206, 206);
+            color: black;
+            /* color: white; */
+            border: none;
+            padding: 10px;
+            margin-bottom: 25px;
+            cursor: pointer;
+            width: 120px;
+            border-radius: 20px; /* Keep border round */
+            transition: background-color 0.3s ease; /* Add transition */
+            border: 2px solid rgba(0, 0, 0, 0.2); /* Add border */
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Add shadow */
+        }
+
+        
+
+        .button:hover {
+            background-color: white; /* Change hover background color to white */
+            color: rgb(142, 119, 119); /* Change text color on hover */
+        }
+        #redButton {
+            background-color: #de2d26; /* Red color */
+        }
+
+        #greenButton {
+            background-color: #31a354; /* Green color */
+        }
+
+        #blueButton {
+            background-color: #3182bd; /* Blue color */
+        }
+        #bnw {
+            background-color:black
+        }
+
+    </style>
+</head>
+<body>
+<h1>Heart Disease percentage by State in US</h1>
+<svg width="1069" height="600"></svg>
+<div class="button-container-1">
+    <button class="button" id="redButton">Red</button>
+    <button class="button" id="greenButton">Green</button>
+    <button class="button" id="blueButton">Blue</button>
+    <button class="button" id="bnw">BNW</button>
+</div>
+<div class="button-container">
+    <div><button class="button" id="heatmapButton">Heatmap</button></div>
+    <div><button class="button" id="treeButton">Collapsible Tree</button></div>
+    <div><button class="button" id="lollipopButton">Lollipop Chart</button></div>
+    <div><button class="button" id="showAllStatsButton">Show All Stats</button></div>
+</div>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="chloropeth.js"></script>
+<script>
+    // Function to add animations to buttons
+    document.querySelectorAll('.button').forEach(button => {
+        button.addEventListener('mouseover', function() {
+            button.style.backgroundColor = '#F1F7F1';
+        });
+        button.addEventListener('mouseout', function() {
+            button.style.backgroundColor = 'rgb(207, 190, 190)';
+        });
+    });
+
+    // Load GeoJSON file
+    d3.json("us-states.json").then(function (us) {
+        // Create SVG element
+        var svg = d3.select("svg"),
+            width = +svg.attr("width"),
+            height = +svg.attr("height");
+
+        // Define projection
+        var projection = d3
+            .geoAlbersUsa()
+            .translate([width / 2, height / 2])
+            .scale(1000);
+
+        // Define path generator
+        var path = d3.geoPath().projection(projection);
+
+        // Mapping between state codes and state names
+        var stateNames = {
+    "0400000US01": "Alabama",
+    "0400000US02": "Alaska",
+    "0400000US04": "Arizona",
+    "0400000US05": "Arkansas",
+    "0400000US06": "California",
+    "0400000US08": "Colorado",
+    "0400000US09": "Connecticut",
+    "0400000US10": "Delaware",
+    "0400000US11": "District of Columbia",
+    "0400000US12": "Florida",
+    "0400000US13": "Georgia",
+    "0400000US15": "Hawaii",
+    "0400000US16": "Idaho",
+    "0400000US17": "Illinois",
+    "0400000US18": "Indiana",
+    "0400000US19": "Iowa",
+    "0400000US20": "Kansas",
+    "0400000US21": "Kentucky",
+    "0400000US22": "Louisiana",
+    "0400000US23": "Maine",
+    "0400000US24": "Maryland",
+    "0400000US25": "Massachusetts",
+    "0400000US26": "Michigan",
+    "0400000US27": "Minnesota",
+    "0400000US28": "Mississippi",
+    "0400000US29": "Missouri",
+    "0400000US30": "Montana",
+    "0400000US31": "Nebraska",
+    "0400000US32": "Nevada",
+    "0400000US33": "New Hampshire",
+    "0400000US34": "New Jersey",
+    "0400000US35": "New Mexico",
+    "0400000US36": "New York",
+    "0400000US37": "North Carolina",
+    "0400000US38": "North Dakota",
+    "0400000US39": "Ohio",
+    "0400000US40": "Oklahoma",
+    "0400000US41": "Oregon",
+    "0400000US42": "Pennsylvania",
+    "0400000US44": "Rhode Island",
+    "0400000US45": "South Carolina",
+    "0400000US46": "South Dakota",
+    "0400000US47": "Tennessee",
+    "0400000US48": "Texas",
+    "0400000US49": "Utah",
+    "0400000US50": "Vermont",
+    "0400000US51": "Virginia",
+    "0400000US53": "Washington",
+    "0400000US54": "West Virginia",
+    "0400000US55": "Wisconsin",
+    "0400000US56": "Wyoming",
+  };
+
+        // Load CSV data
+        d3.csv("data.csv").then(function (data) {
+            // Initialize objects to store heart attack counts and total people count in each state
+            var stateHeartAttackCounts = {};
+            var stateTotalPeople = {}; 
+            // Calculate heart attack percentages for each state
+            data.forEach(function (d) {
+                var state = d.State;
+                if (state in stateHeartAttackCounts) {
+                    if (d.HadHeartAttack === "Yes") {
+                        stateHeartAttackCounts[state]++;
+                    }
+                } else {
+                    stateHeartAttackCounts[state] = d.HadHeartAttack === "Yes" ? 1 : 0;
+                }
+                // Count total people in each state
+                if (state in stateTotalPeople) {
+                    stateTotalPeople[state]++;
+                } else {
+                    stateTotalPeople[state] = 1;
+                }
+            });
+
+            // Calculate percentages for each state based on total people in that state
+            for (var state in stateHeartAttackCounts) {
+                stateHeartAttackCounts[state] =
+                    (stateHeartAttackCounts[state] / stateTotalPeople[state]) * 100;
+            }
+
+            // Define color scales based on percentages
+            var redColorScale = d3
+                .scaleThreshold()
+                .domain([3.0, 4.5, 6, 7.5, 9])
+                .range(["#fee5d9", "#fcae91", "#fb6a4a", "#de2d26", "#a50f15"]);
+
+            var greenColorScale = d3
+                .scaleThreshold()
+                .domain([3.0, 4.5, 6, 7.5, 9])
+                .range(["#edf8e9", "#bae4b3", "#74c476", "#31a354", "#006d2c"]);
+
+            var blueColorScale = d3
+                .scaleThreshold()
+                .domain([3.0, 4.5, 6, 7.5, 9])
+                .range(["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"]);
+            var bnwColorScale = d3
+                .scaleThreshold()
+                .domain([3.0, 4.5, 6, 7.5, 9])
+                .range(["#ffffff", "#bfbfbf", "#7f7f7f", "#404040", "#000000"]);
+
+
+            // Define legend data for each color scale
+            var redLegendData = [
+                { color: "#fee5d9", label: "0.00 - 3.00%" },
+                { color: "#fcae91", label: "3.00 - 4.50%" },
+                { color: "#fb6a4a", label: "4.50 - 6.00%" },
+                { color: "#de2d26", label: "6.00 - 7.50%" },
+                { color: "#a50f15", label: "7.50% and above" },
+            ];
+
+            var greenLegendData = [
+                { color: "#edf8e9", label: "0.00 - 3.00%" },
+                { color: "#bae4b3", label: "3.00 - 4.50%" },
+                { color: "#74c476", label: "4.50 - 6.00%" },
+                { color: "#31a354", label: "6.00 - 7.50%" },
+                { color: "#006d2c", label: "7.50% and above" },
+            ];
+
+            var blueLegendData = [
+                { color: "#eff3ff", label: "0.00 - 3.00%" },
+                { color: "#bdd7e7", label: "3.00 - 4.50%" },
+                { color: "#6baed6", label: "4.50 - 6.00%" },
+                { color: "#3182bd", label: "6.00 - 7.50%" },
+                { color: "#08519c", label: "7.50% and above" },
+            ];
+            var bnwLegendData = [    
+                { color: "#ffffff",label: "0.00 - 3.00%" },
+                { color: "#bfbfbf", label: "3.00 - 4.50%" },
+                { color: "#7f7f7f", label: "4.50 - 6.00%" },
+                { color:"#404040", label: "6.00 - 7.50%" },
+                { color: "#000000", label: "7.50% and above" },
+            ];
+
+            // Function to change color based on button click
+            function changeColor(colorScale, legendData) {
+                svg.selectAll("path")
+                    .attr("fill", function (d) {
+                        var stateCode = d.properties.GEO_ID;
+                        var stateName = stateNames[stateCode];
+                        var percentage = stateHeartAttackCounts[stateName] || 0;
+                        return colorScale(percentage);
+                    });
+
+                updateLegend(legendData);
+            }
+
+            // Event listeners for color buttons
+            document.getElementById("redButton").addEventListener("click", function() {
+                changeColor(redColorScale, redLegendData);
+            });
+
+            document.getElementById("greenButton").addEventListener("click", function() {
+                changeColor(greenColorScale, greenLegendData);
+            });
+
+            document.getElementById("blueButton").addEventListener("click", function() {
+                changeColor(blueColorScale, blueLegendData);
+            });
+            document.getElementById("bnw").addEventListener("click", function() {
+                changeColor(bnwColorScale, bnwLegendData);
+            });
+
+            // Define legend
+            var legend = svg
+                .append("g")
+                .attr("class", "legend")
+                .attr("transform", "translate(900, 20)"); // Adjust the X value 
+
+            // Function to update legend
+            function updateLegend(legendData) {
+                var legendItems = legend
+                    .selectAll(".legend-item")
+                    .data(legendData);
+
+                legendItems.exit().remove();
+
+                var newLegendItems = legendItems.enter()
+                    .append("g")
+                    .attr("class", "legend-item")
+                    .attr("transform", function (d, i) {
+                        return "translate(0," + i * 20 + ")";
+                    });
+
+                newLegendItems
+                    .append("rect")
+                    .attr("class", "legend-color")
+                    .attr("x", 0)
+                    .attr("y", 0)
+                    .attr("width", 20)
+                    .attr("height", 10);
+
+                newLegendItems
+                    .append("text")
+                    .attr("x", 30)
+                    .attr("y", 9)
+                    .attr("dy", "0.35em");
+
+                legendItems = newLegendItems.merge(legendItems);
+
+                legendItems.select(".legend-color")
+                    .style("fill", function (d) {
+                        return d.color;
+                    });
+
+                legendItems.select("text")
+                    .text(function (d) {
+                        return d.label;
+                    });
+            }
+        });
+    });
+</script>
+</body>
 </html>

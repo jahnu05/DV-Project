@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<style>
+  /* Define CSS styles for the box and shadow effect */
+  .graph-container {
+    border: 2px solid #000;
+    box-shadow: 5px 5px 15px rgba(44, 201, 73, 0.5);
+    padding: 20px; /* Adjust padding as needed */
+  }
+</style>
+
+<!-- Create a div where the graph will take place -->
+<div class="graph-container">
+  <!-- Heading goes here -->
+  <h2>Sleep Hours of Individuals with the Maximum Percentage of Heart Rate for Each Age Group</h2>
+  <div id="my_dataviz"></div>
+</div>
+
+<script>
+  // set the dimensions and margins of the graph
+  var margin = { top: 60, right: 60, bottom: 180, left: 200 }, // Increased top margin for more gap
+    width = 1000 - margin.left - margin.right,
+    height = 700 - margin.top - margin.bottom;
+
+  // append the svg object to the body of the page
+  var svg = d3
+    .select("#my_dataviz")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + (margin.left + 50) + "," + (margin.top + 50) + ")"); // Move right and down
+
+  // Parse the Data
+  d3.csv("result.csv", function (data) {
+    // // sort data
+    // data.sort(function(b, a) {
+    //   return a.Value - b.Value;
+    // });
+
+    // Add X axis
+    var x = d3
+      .scaleLinear()
+      .domain([0, 12]) // Adjusted domain for SleepHours
+      .range([0, width]);
+    svg
+      .append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x))
+      .selectAll("text")
+      .attr("transform", "translate(-10,0)rotate(-45)")
+      .style("text-anchor", "end");
+
+    // Y axis
+    var y = d3
+      .scaleBand()
+      .range([0, height])
+      .domain(
+        data.map(function (d) {
+          return d.AgeCategory;
+        })
+      )
+      .padding(1);
+    svg.append("g").call(d3.axisLeft(y));
+    svg
+      .append("text")
+      .attr("text-anchor", "end")
+      .attr("x", "430px")
+      .attr("y", "520px") // Increased y position for more gap
+      .text("Sleep Hours");
+
+    // Add Y axis label
+    svg
+      .append("text")
+      .attr("text-anchor", "end")
+      .attr("transform", "rotate(-90)")
+      .attr("y", "-90px")
+      .attr("x", "-150px")
+      .text("Age Category");
+
+    // Lines
+    svg
+      .selectAll("myline")
+      .data(data)
+      .enter()
+      .append("line")
+      .attr("x1", x(0))
+      .attr("x2", x(0))
+      .attr("y1", function (d) {
+        return y(d.AgeCategory);
+      })
+      .attr("y2", function (d) {
+        return y(d.AgeCategory);
+      })
+      .attr("stroke", "grey");
+
+    // Circles -> start at X=0
+    svg
+      .selectAll("mycircle")
+      .data(data)
+      .enter()
+      .append("circle")
+      .attr("cx", x(0))
+      .attr("cy", function (d) {
+        return y(d.AgeCategory);
+      })
+      .attr("r", "7")
+      .style("fill", "#69b3a2")
+      .attr("stroke", "black");
+
+    // Change the X coordinates of line and circle
+    svg
+      .selectAll("circle")
+      .transition()
+      .duration(2000)
+      .attr("cx", function (d) {
+        return x(d.SleepHours);
+      });
+
+    svg
+      .selectAll("line")
+      .transition()
+      .duration(2000)
+      .attr("x1", function (d) {
+        return x(d.SleepHours);
+      });
+  });
+</script>

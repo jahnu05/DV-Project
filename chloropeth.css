@@ -8,13 +8,11 @@ body {
   margin-left: 100px;
   height: 100vh;
 }
-
-.container {
+/* .container {
   position: relative;
   width: 100%;
   height: 100%;
-}
-
+} */
 .tooltip {
   position: absolute;
   background-color: white;
@@ -23,10 +21,10 @@ body {
   border-radius: 5px;
   pointer-events: none;
 }
-
 .legend {
   font-size: 12px;
 }
+
 
 .legend-item {
   margin-bottom: 5px;
@@ -47,8 +45,23 @@ h1 {
   border: 1px solid #ccc;
 }
 
+h1 {
+  font-size: 36px; /* Change font size as needed */
+  color: #333; /* Change text color as needed */
+  /* text-align: center; Center the text */
+  margin-top: 10px; /* Add margin below the heading */
+  margin-left: 220px;
+}
 
-#showAllStatsButton {
+.legend-color {
+  display: inline-block;
+  width: 20px;
+  height: 10px;
+  margin-right: 5px;
+  border: 1px solid #ccc;
+}
+
+button {
   padding: 10px 30px;
   background-color: #aa2212;
   color: #fff;
@@ -56,13 +69,40 @@ h1 {
   border-radius: 5px;
   cursor: pointer;
   font-size: 19px;
+  display: block;
   transition: background-color 0.3s ease;
-  margin-left: 900px;
-  border-color: #0f0b0b;
+  margin-top:20px;
+  margin-bottom: 20px;
 }
 
 /* Hover effect for the button */
-#showAllStatsButton:hover {
+button:hover {
   background-color: #e26f5f;
   border-color: #0f0b0b;
 }
+#buttonContainer {
+  position: absolute;
+  top: 50%;
+  right: 20px; /* Adjust the distance from the right side */
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-top:30px;
+  margin-right: 100px;
+}
+
+#HeatMap {
+  margin-right: 15px; /* Adjust the distance from the right side */
+}
+
+
+
+
+
+
+
+
+
+
+

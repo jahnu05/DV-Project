@@ -1,3 +1,15 @@
+document.getElementById("heatmapButton").addEventListener("click", function() {
+      window.location.href = "working/HeatMap.html";
+    });
+
+    document.getElementById("treeButton").addEventListener("click", function() {
+      window.location.href = "tree/index.html";
+    });
+
+    document.getElementById("lollipopButton").addEventListener("click", function() {
+      window.location.href = "working/sleepHours-lol.html";})
+
+
 // Load GeoJSON file
 d3.json("us-states.json").then(function (us) {
   // Create SVG element

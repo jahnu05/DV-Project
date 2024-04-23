@@ -1,0 +1,14 @@
+AgeCategory,BMI range
+Age 18 to 24,Overweight 25-29.9
+Age 25 to 29,Overweight 25-29.9
+Age 30 to 34,Obesity >=30
+Age 35 to 39,Obesity >=30
+Age 40 to 44,Obesity >=30
+Age 45 to 49,Obesity >=30
+Age 50 to 54,Obesity >=30
+Age 55 to 59,Obesity >=30
+Age 60 to 64,Obesity >=30
+Age 65 to 69,Obesity >=30
+Age 70 to 74,Obesity >=30
+Age 75 to 79,Overweight 25-29.9
+Age 80 or older,Overweight 25-29.9
